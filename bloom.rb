@@ -1,17 +1,21 @@
 require 'bloomfilter-rb'
 
+# This class creates either a native or redis based
+# bloom filter.
+
 class Bloom
   def initialize(redis, options = {})
-    options.reverse_update(counting => false,
-                           size => 100,
-                           hashes => 2,
-                           seed => 1,
-                           bucket => 3,
-                           r => false,
-                           ttl => 2,
-                           db => redis)
-    @bf = BloomFilter::Redis.new(*options) unless counting
-    @bf = BloomFilter::CountingRedis.new(*options) if counting
+    options = { 'native' => options['native'] || false,
+                'size' => options['size'] || 100,
+                'hashes' => options['hashes'] || 2,
+                'seed' => options['seed'] || 1,
+                'bucket' => options['bucket'] || 3,
+                'raise' => options['raise'] || false,
+                'ttl' => options['ttl'] || 2,
+                'db' => redis }
+
+    @bf = BloomFilter::CountingRedis.new(options) unless options['native']
+    @bf = BloomFilter::Native.new(options) if options['native']
   end
 
   def insert(obj)
@@ -23,7 +27,7 @@ class Bloom
   end
 
   def includes?(obj)
-    @bf.include(obj)
+    @bf.include?(obj)
   end
 
   def stats

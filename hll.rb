@@ -1,5 +1,7 @@
 require 'hyperloglog-redis'
 
+# This class creates a redis based HyperLogLog.
+
 class HyperLog
   def initialize(redis)
     @counter = HyperLogLog::Counter.new(redis)

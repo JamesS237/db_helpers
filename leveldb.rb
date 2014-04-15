@@ -1,5 +1,7 @@
 require 'leveldb'
 
+# This class opens a LevelDB
+
 class Level
   def initialize(path)
     @db = LevelDB::DB.new path
@@ -81,7 +83,7 @@ class Level
 
   # snapshot
   def snap
-    return Snapshot.new(@db.snapshot)
+    Snapshot.new(@db.snapshot)
   end
 
   # props
@@ -94,6 +96,9 @@ class Level
     @db.stats
   end
 end
+
+# This class provides an api to snapshots
+# Allowing you to rewind and fast-forward
 
 class Snapshot
   def initialize(snap)

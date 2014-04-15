@@ -1,5 +1,7 @@
 require 'sophia-ruby'
 
+# This class opens a SophiaDB
+
 class SophiaDB
   def initialize(path)
     @db = Sophia.new path
@@ -84,11 +86,11 @@ class SophiaDB
 
   # has
   def key?(key)
-    !!@db[key]
+    @db[key] != nil
   end
 
   def value?(value)
-    #@db.include?(value)
+    # @db.include?(value)
     @db.each_value do |v|
       return true if v == value
     end

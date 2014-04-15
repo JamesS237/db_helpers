@@ -1,6 +1,7 @@
 require 'gnista'
 
 module Sparkey
+  # This class opens a connection to Sparkey
   class SparkeyConnection
     def initialize(path, hash = nil)
       # writer
@@ -10,13 +11,15 @@ module Sparkey
       # reader
       @reader = Gnista::Logreader.new path
 
-      #hash
+      # hash
       @hash = Gnista::Hash.write hash, path if hash
     end
     attr_reader @writer
     attr_reader @reader
     attr_reader @hash
   end
+
+  # This class opens a write connection to Sparkey
 
   class Write
     def initialize(path, hash = nil)
@@ -63,6 +66,8 @@ module Sparkey
     end
   end
 
+  # This class creates a read connection to Sparkey
+
   class Read
     def initialize(path)
       # open
@@ -82,6 +87,8 @@ module Sparkey
       @reader.close
     end
   end
+
+  # This class a hash connection to Sparkey
 
   class Hash
     def initialize(path, hash)
