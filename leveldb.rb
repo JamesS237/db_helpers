@@ -37,7 +37,7 @@ class Level
     @db.contains? key
   end
 
-  def each(reversed=false)
+  def each(reversed = false)
     if reversed
       @db.reverse_each do |k, v|
         yield [k, v] if block_given?
@@ -47,11 +47,11 @@ class Level
         yield [k, v] if block_given?
       end
     end
-  endi
+  end
 
   def batch
     bop = @db.batch
-    ret = yield(bop)
+    yield(bop)
     bop.write!
   end
 
@@ -65,7 +65,7 @@ class Level
     @db.map(&Proc.new) if block_given?
   end
 
-  def reduce(arr=[])
+  def reduce(arr = [])
     @db.reduce(arr, &Proc.new) if block_given?
   end
 
@@ -88,13 +88,11 @@ class Snapshot
     @snap = snap
   end
 
-  def rw
+  def rewind
     @snap.set!
   end
 
-  def ff
+  def fastforward
     @snap.reset!
   end
 end
-
-

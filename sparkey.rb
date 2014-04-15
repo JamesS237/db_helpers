@@ -2,39 +2,21 @@ require 'gnista'
 
 module Sparkey
   class SparkeyConnection
-    def initialize(path, hash=nil)
-      if !File.exist?(path)
-        @writer = Gnista::Logwriter.new path
-        @writer.put("created", "true")
-
-        @reader = Gnista::Logreader.new path
-      else
-        @writer = Gnista::Logwriter.new path, :append
-        @reader = Gnista::Logreader.new path
-      end
-
-      if hash
-       @hash = Gnista::Hash.write hash, path
-      end
+    def initialize(path, hash = nil)
+      @writer = Gnista::Logwriter.new path unless File.exist?(path)
+      @writer = Gnista::Logwriter.new path, :append if File.exist?(path)
+      @reader = Gnista::Logreader.new path
+      @hash = Gnista::Hash.write hash, path if hash
     end
-
-    def getwriter
-      @writer
-    end
-
-    def getreader
-      @reader
-    end
-
-    def gethash
-      @hash
-    end
+    attr_reader @writer
+    attr_reader @reader
+    attr_reader @hash
   end
 
   class Write
-    def initialize(path, hash=nil)
+    def initialize(path, hash = nil)
       @connections = SparkeyConnection.new(path)
-      @writer = @connections.getwriter
+      @writer = @connections.writer
 
       @flushing = true
     end
@@ -73,11 +55,11 @@ module Sparkey
   class Read
     def initialize(path)
       @connections = SparkeyConnection.new(path)
-      @reader = @connections.getreader
+      @reader = @connections.reader
     end
 
     def each
-      @reader.each do |key,value,type|
+      @reader.each do |key, value, type|
         yield [key, value, type] if block_given?
       end
     end
@@ -86,7 +68,7 @@ module Sparkey
   class Hash
     def initialize(path, hash)
       @connections = SparkeyConnection.new(path, hash)
-      @hash = @connections.gethash
+      @hash = @connections.hash
     end
 
     def get(key)
@@ -94,7 +76,7 @@ module Sparkey
     end
 
     def each(hash)
-      @hash.each do |key,value,type|
+      @hash.each do |key, value, type|
         yield [key, value, type]
       end
     end
