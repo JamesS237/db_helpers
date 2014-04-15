@@ -33,7 +33,7 @@ class SophiaDB
   def delete(key)
     @db.delete(key)
   end
-  def del(key)i
+  def del(key)
     delete(key)
   end
 
