@@ -3,12 +3,13 @@ require 'leveldb'
 class Level
   def initialize(path)
     @db = LevelDB::DB.new path
+    at_exit do
+      @db.close
+      exit
+    end
   end
 
-  def keys
-    @db.keys
-  end
-
+  # set
   def put(key, value)
     @db.put(key, value)
   end
@@ -17,10 +18,12 @@ class Level
     @db.put(key, value)
   end
 
+  # get
   def get(key)
     @db.get(key)
   end
 
+  # delete
   def delete(key)
     @db.delete(key)
   end
@@ -29,14 +32,7 @@ class Level
     @db.delete(key)
   end
 
-  def includes?(key)
-    @db.includes? key
-  end
-
-  def contains?(key)
-    @db.contains? key
-  end
-
+  # iterate
   def each(reversed = false)
     if reversed
       @db.reverse_each do |k, v|
@@ -49,16 +45,14 @@ class Level
     end
   end
 
-  def batch
-    bop = @db.batch
-    yield(bop)
-    bop.write!
-  end
-
   def range(f, t)
     @db.range(f, t) do |k, v|
       yield [k, v] if block_given?
     end
+  end
+
+  def keys
+    @db.keys
   end
 
   def map
@@ -69,15 +63,33 @@ class Level
     @db.reduce(arr, &Proc.new) if block_given?
   end
 
-  def snap
-    s = Snapshot.new(@db.snapshot)
-    s
+  # key
+  def includes?(key)
+    @db.includes? key
   end
 
+  def contains?(key)
+    @db.contains? key
+  end
+
+  # batch
+  def batch
+    bop = @db.batch
+    yield(bop)
+    bop.write!
+  end
+
+  # snapshot
+  def snap
+    return Snapshot.new(@db.snapshot)
+  end
+
+  # props
   def prop(p)
     @db.read_property(p)
   end
 
+  # stats
   def stats
     @db.stats
   end

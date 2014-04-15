@@ -3,6 +3,10 @@ require 'sophia-ruby'
 class SophiaDB
   def initialize(path)
     @db = Sophia.new path
+    at_exit do
+      @db.close
+      exit
+    end
   end
 
   # get
@@ -80,11 +84,16 @@ class SophiaDB
 
   # has
   def key?(key)
-    @sophia.key?(key)
+    !!@db[key]
   end
 
   def value?(value)
-    @sophia.value?(value)
+    #@db.include?(value)
+    @db.each_value do |v|
+      return true if v == value
+    end
+
+    false
   end
 
   # values

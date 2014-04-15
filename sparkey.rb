@@ -3,9 +3,14 @@ require 'gnista'
 module Sparkey
   class SparkeyConnection
     def initialize(path, hash = nil)
+      # writer
       @writer = Gnista::Logwriter.new path unless File.exist?(path)
       @writer = Gnista::Logwriter.new path, :append if File.exist?(path)
+
+      # reader
       @reader = Gnista::Logreader.new path
+
+      #hash
       @hash = Gnista::Hash.write hash, path if hash
     end
     attr_reader @writer
@@ -15,12 +20,14 @@ module Sparkey
 
   class Write
     def initialize(path, hash = nil)
+      # open
       @connections = SparkeyConnection.new(path)
       @writer = @connections.writer
 
       @flushing = true
     end
 
+    # set
     def put(key, value)
       @writer.put(key, value)
       @writer.flush if @flushing
@@ -31,11 +38,13 @@ module Sparkey
       @writer.flush if @flushing
     end
 
+    # delete
     def del(key)
       @writer.del(key)
       @writer.flush if @flushing
     end
 
+    # batch
     def batch
       @flushing = false
       yield if block_given?
@@ -43,10 +52,12 @@ module Sparkey
       @flushing = true
     end
 
+    # flush
     def flush
       @writer.flush
     end
 
+    # close
     def close
       @writer.close
     end
@@ -54,10 +65,12 @@ module Sparkey
 
   class Read
     def initialize(path)
+      # open
       @connections = SparkeyConnection.new(path)
       @reader = @connections.reader
     end
 
+    # iterate
     def each
       @reader.each do |key, value, type|
         yield [key, value, type] if block_given?
@@ -71,14 +84,49 @@ module Sparkey
       @hash = @connections.hash
     end
 
+    # get
     def get(key)
       @hash.get(key)
     end
 
+    # iterator
     def each(hash)
       @hash.each do |key, value, type|
         yield [key, value, type]
       end
+    end
+
+    # contents
+    def include?(key)
+      @hash.include? key
+    end
+
+    def empty?
+      @hash.empty?
+    end
+
+    # union
+    def collisions
+      @hash.collisions
+    end
+
+    def union
+      @hash.collisions
+    end
+
+    # key
+    def keys
+      @hash.keys
+    end
+
+    # value
+    def values
+      @hash.values
+    end
+
+    # lengths
+    def length
+      @hash.length
     end
 
     def maxkeylen
@@ -89,28 +137,5 @@ module Sparkey
       @hash.maxvaluelen
     end
 
-    def include?(key)
-      @hash.include? key
-    end
-
-    def empty?
-      @hash.empty?
-    end
-
-    def collisions
-      @hash.collisions
-    end
-
-    def length
-      @hash.length
-    end
-
-    def keys
-      @hash.keys
-    end
-
-    def values
-      @hash.values
-    end
   end
 end
