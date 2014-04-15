@@ -1,12 +1,17 @@
 require 'bloomfilter-rb'
 
 class Bloom
-  def initialize(redis, counting=false, size=100, hashes=2, seed=1, bucket=3, r=false)
-    if counting
-      @bf = BloomFilter::CountingRedis.new(:size => size, :hashes => hashes, :seed => seed, :bucket => bucket, :raise => r, :db => redis, :ttl => 2)
-    else
-      @bf = BloomFilter::Redis.new(:size => size, :hashes => hashes, :seed => seed, :bucket => bucket, :raise => r, :db => redis)
-    end
+  def initialize(redis, options = {})
+    options.reverse_update(counting => false,
+                           size => 100,
+                           hashes => 2,
+                           seed => 1,
+                           bucket => 3,
+                           r => false,
+                           ttl => 2,
+                           db => redis)
+    @bf = BloomFilter::Redis.new(*options) unless counting
+    @bf = BloomFilter::CountingRedis.new(*options) if counting
   end
 
   def insert(obj)

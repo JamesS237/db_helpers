@@ -29,8 +29,8 @@ class HyperLog
     @counter.union(sets)
   end
 
-  def union_store(sets, name)
-    @counter.union_store(name, sets)
+  def union_store(sets, out)
+    @counter.union_store(name, out)
   end
 
   def intersect(sets)
