@@ -2,6 +2,7 @@
 
 Ruby Embedded DB Helpers, the way I like it.
 
+Check out the [Documentation](http://jamess237.github.io/db_helpers/)!
 # Databases:
   - LevelDB
   - Sophia
