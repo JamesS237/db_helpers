@@ -76,6 +76,11 @@ module Sparkey
         yield [key, value, type] if block_given?
       end
     end
+
+    # close
+    def close
+      @reader.close
+    end
   end
 
   class Hash
@@ -137,5 +142,9 @@ module Sparkey
       @hash.maxvaluelen
     end
 
+    # close
+    def close
+      @hash.close
+    end
   end
 end
