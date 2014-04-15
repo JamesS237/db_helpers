@@ -6,12 +6,11 @@ Ruby Embedded DB Helpers, the way I like it.
   - LevelDB
   - Sophia
   - Sparkey
+  - Redis-backed HyperLogLog
+  - Redis-backed Bloom Filter
   - *more coming soon*
 
-*docs coming soon*
-
 # Todo
-  - Docs
   - Tests
   - More Databases
 
