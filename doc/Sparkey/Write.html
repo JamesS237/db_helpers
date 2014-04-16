@@ -100,8 +100,9 @@
 
   <section class="description">
     
-<p>This class opens a write connection to <a
-href="../Sparkey.html">Sparkey</a></p>
+<h2 id="class-Sparkey::Write-label-Write"><a href="Write.html">Write</a><span><a href="#class-Sparkey::Write-label-Write">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot;</pre>
 
   </section>
 
@@ -143,7 +144,7 @@ href="../Sparkey.html">Sparkey</a></p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 25</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">hash</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># open</span>
   <span class="ruby-ivar">@connections</span> = <span class="ruby-constant">SparkeyConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>)
@@ -182,13 +183,21 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>batch</p>
+          <h2 id="method-i-batch-label-Batch">Batch<span><a href="#method-i-batch-label-Batch">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot; # create writer
+writer.batch do
+ writer.put(&quot;foo&quot;, &quot;bar&quot;)
+ writer.put(&quot;bar&quot;, &quot;baz&quot;)
+
+ writer.del(&quot;bar&quot;)
+end</pre>
           
           
 
           
           <div class="method-source-code" id="batch-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 51</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">batch</span>
   <span class="ruby-ivar">@flushing</span> = <span class="ruby-keyword">false</span>
   <span class="ruby-keyword">yield</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
@@ -218,13 +227,16 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>close</p>
+          <h2 id="method-i-close-label-Close">Close<span><a href="#method-i-close-label-Close">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot; # create writer
+writer.close # close connection</pre>
           
           
 
           
           <div class="method-source-code" id="close-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 64</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 99</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">close</span>
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">close</span>
 <span class="ruby-keyword">end</span></pre>
@@ -251,13 +263,17 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>delete</p>
+          <h2 id="method-i-del-label-Delete">Delete<span><a href="#method-i-del-label-Delete">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot; # create writer
+writer.set(&quot;foo&quot;, &quot;bar&quot;) # key `foo` = `bar`
+writer.del(&quot;foo&quot;) # delete key `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="del-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 45</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">del</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">del</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">flush</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@flushing</span>
@@ -285,13 +301,16 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>flush</p>
+          <h2 id="method-i-flush-label-Flush">Flush<span><a href="#method-i-flush-label-Flush">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot; # create writer
+writer.flush # flush to database</pre>
           
           
 
           
           <div class="method-source-code" id="flush-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 59</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 90</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">flush</span>
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">flush</span>
 <span class="ruby-keyword">end</span></pre>
@@ -318,13 +337,16 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>set</p>
+          <h2 id="method-i-put-label-Put">Put<span><a href="#method-i-put-label-Put">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot;
+writer.put(&quot;foo&quot;, &quot;bar&quot;) #key `foo` = `bar`</pre>
           
           
 
           
           <div class="method-source-code" id="put-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 34</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">put</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">flush</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@flushing</span>
@@ -352,13 +374,16 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-set-label-Set">Set<span><a href="#method-i-set-label-Set">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>writer = Sparkey::Write.new &quot;mylog.log&quot; # create writer
+writer.set(&quot;foo&quot;, &quot;bar&quot;) # key `foo` = `bar`</pre>
           
           
 
           
           <div class="method-source-code" id="set-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 39</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">flush</span>)
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@writer</span>.<span class="ruby-identifier">flush</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@flushing</span>

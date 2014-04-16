@@ -91,7 +91,7 @@
     
     <li ><a href="#method-i-length">#length</a>
     
-    <li ><a href="#method-i-maxkeylen">#maxkeylen</a>
+    <li ><a href="#method-i-maxkeylength">#maxkeylength</a>
     
     <li ><a href="#method-i-maxvaluelength">#maxvaluelength</a>
     
@@ -112,7 +112,9 @@
 
   <section class="description">
     
-<p>This class a hash connection to <a href="../Sparkey.html">Sparkey</a></p>
+<h2 id="class-Sparkey::Hash-label-Hash"><a href="Hash.html">Hash</a><span><a href="#class-Sparkey::Hash-label-Hash">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot;</pre>
 
   </section>
 
@@ -154,7 +156,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 94</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 145</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">hash</span>)
   <span class="ruby-ivar">@connections</span> = <span class="ruby-constant">SparkeyConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">hash</span>)
   <span class="ruby-ivar">@hash</span> = <span class="ruby-ivar">@connections</span>.<span class="ruby-identifier">hash</span>
@@ -190,13 +192,16 @@
 
         <div class="method-description">
           
-          <p>close</p>
+          <h2 id="method-i-close-label-Close">Close<span><a href="#method-i-close-label-Close">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.close # close connection</pre>
           
           
 
           
           <div class="method-source-code" id="close-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 153</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 264</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">close</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">close</span>
 <span class="ruby-keyword">end</span></pre>
@@ -223,13 +228,16 @@
 
         <div class="method-description">
           
-          <p>union</p>
+          <h2 id="method-i-collisions-label-Collisions">Collisions<span><a href="#method-i-collisions-label-Collisions">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.collisions # collisions in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="collisions-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 121</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 199</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">collisions</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">collisions</span>
 <span class="ruby-keyword">end</span></pre>
@@ -256,16 +264,26 @@
 
         <div class="method-description">
           
-          <p>iterator</p>
+          <h2 id="method-i-each-label-Each">Each<span><a href="#method-i-each-label-Each">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">hash</span> = <span class="ruby-constant">Sparkey</span><span class="ruby-operator">::</span><span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;mylog.log&quot;</span>, <span class="ruby-string">&quot;mylog.hash&quot;</span> <span class="ruby-comment"># create hash reader</span>
+<span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">chunk</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">key</span> = <span class="ruby-identifier">chunk</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># first chunk element is the key</span>
+  <span class="ruby-identifier">value</span> = <span class="ruby-identifier">chunk</span>[<span class="ruby-value">1</span>] <span class="ruby-comment"># second chunk element is the value</span>
+  <span class="ruby-identifier">op</span> = <span class="ruby-identifier">chunk</span>[<span class="ruby-value">2</span>] <span class="ruby-comment"># third chunk element is the operation in the hash</span>
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">op</span>
+<span class="ruby-keyword">end</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 105</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>(<span class="ruby-identifier">hash</span>)
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">yield</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">type</span>]
+    <span class="ruby-keyword">yield</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">type</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -291,13 +309,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-empty-3F-label-Empty">Empty<span><a href="#method-i-empty-3F-label-Empty">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.empty? # is the hash empty</pre>
           
           
 
           
           <div class="method-source-code" id="empty-3F-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 116</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 190</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -324,13 +345,16 @@
 
         <div class="method-description">
           
-          <p>get</p>
+          <h2 id="method-i-get-label-Get">Get<span><a href="#method-i-get-label-Get">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.get(&quot;foo&quot;) # returns value at key `foo` in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="get-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 100</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 155</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">key</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -357,13 +381,16 @@
 
         <div class="method-description">
           
-          <p>contents</p>
+          <h2 id="method-i-include-3F-label-Includes%3F">Includes?<span><a href="#method-i-include-3F-label-Includes%3F">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.include?(&quot;foo&quot;) # is the key `foo` in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="include-3F-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 112</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 181</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">key</span>
 <span class="ruby-keyword">end</span></pre>
@@ -390,13 +417,16 @@
 
         <div class="method-description">
           
-          <p>key</p>
+          <h2 id="method-i-keys-label-Keys">Keys<span><a href="#method-i-keys-label-Keys">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.keys # an array of all the keys in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="keys-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 130</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 217</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">keys</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">keys</span>
 <span class="ruby-keyword">end</span></pre>
@@ -423,13 +453,16 @@
 
         <div class="method-description">
           
-          <p>lengths</p>
+          <h2 id="method-i-length-label-Length">Length<span><a href="#method-i-length-label-Length">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.length # size of the hash</pre>
           
           
 
           
           <div class="method-source-code" id="length-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 140</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 237</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">length</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">length</span>
 <span class="ruby-keyword">end</span></pre>
@@ -443,10 +476,10 @@
       </div>
 
     
-      <div id="method-i-maxkeylen" class="method-detail ">
+      <div id="method-i-maxkeylength" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">maxkeylen</span><span
+          <span class="method-name">maxkeylength</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -456,14 +489,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-maxkeylength-label-MaxKeyLen">MaxKeyLen<span><a href="#method-i-maxkeylength-label-MaxKeyLen">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.maxkeylen # largest key in the hash</pre>
           
           
 
           
-          <div class="method-source-code" id="maxkeylen-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 144</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">maxkeylen</span>
+          <div class="method-source-code" id="maxkeylength-source">
+            <pre><span class="ruby-comment"># File sparkey.rb, line 246</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">maxkeylength</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">maxkeylen</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -489,13 +525,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-maxvaluelength-label-MaxValueLen">MaxValueLen<span><a href="#method-i-maxvaluelength-label-MaxValueLen">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.maxvaluelen # largest value in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="maxvaluelength-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 148</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 255</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">maxvaluelength</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">maxvaluelen</span>
 <span class="ruby-keyword">end</span></pre>
@@ -522,13 +561,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-union-label-Union">Union<span><a href="#method-i-union-label-Union">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.union # collisions in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="union-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 125</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 208</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">union</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">collisions</span>
 <span class="ruby-keyword">end</span></pre>
@@ -555,13 +597,16 @@
 
         <div class="method-description">
           
-          <p>value</p>
+          <h2 id="method-i-values-label-Values">Values<span><a href="#method-i-values-label-Values">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>hash = Sparkey::Hash.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # create hash reader
+hash.values # an array of all the values in the hash</pre>
           
           
 
           
           <div class="method-source-code" id="values-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 135</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 227</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">values</span>
   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">values</span>
 <span class="ruby-keyword">end</span></pre>

@@ -88,7 +88,9 @@
 
   <section class="description">
     
-<p>This class opens a connection to <a href="../Sparkey.html">Sparkey</a></p>
+<h2 id="class-Sparkey::SparkeyConnection-label-SparkeyConnection"><a href="SparkeyConnection.html">SparkeyConnection</a><span><a href="#class-Sparkey::SparkeyConnection-label-SparkeyConnection">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>SparkeyConnection.new &quot;mylog.log&quot;, &quot;mylog.hash&quot; # returns a gnista reader, writer and hash reader.</pre>
 
   </section>
 
@@ -130,7 +132,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 6</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">hash</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># writer</span>
   <span class="ruby-ivar">@writer</span> = <span class="ruby-constant">Gnista</span><span class="ruby-operator">::</span><span class="ruby-constant">Logwriter</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">path</span>)

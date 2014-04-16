@@ -92,8 +92,9 @@
 
   <section class="description">
     
-<p>This class creates a read connection to <a
-href="../Sparkey.html">Sparkey</a></p>
+<h2 id="class-Sparkey::Read-label-Write"><a href="Write.html">Write</a><span><a href="#class-Sparkey::Read-label-Write">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>reader = Sparkey::Read.new &quot;mylog.log&quot;</pre>
 
   </section>
 
@@ -135,7 +136,7 @@ href="../Sparkey.html">Sparkey</a></p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 72</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 108</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-comment"># open</span>
   <span class="ruby-ivar">@connections</span> = <span class="ruby-constant">SparkeyConnection</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>)
@@ -172,13 +173,16 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>close</p>
+          <h2 id="method-i-close-label-Close">Close<span><a href="#method-i-close-label-Close">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>reader = Sparkey::Read.new &quot;mylog.log&quot; # create reader
+reader.close # close connection</pre>
           
           
 
           
           <div class="method-source-code" id="close-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 86</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">close</span>
   <span class="ruby-ivar">@reader</span>.<span class="ruby-identifier">close</span>
 <span class="ruby-keyword">end</span></pre>
@@ -205,13 +209,23 @@ href="../Sparkey.html">Sparkey</a></p>
 
         <div class="method-description">
           
-          <p>iterate</p>
+          <h2 id="method-i-each-label-Each">Each<span><a href="#method-i-each-label-Each">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">reader</span> = <span class="ruby-constant">Sparkey</span><span class="ruby-operator">::</span><span class="ruby-constant">Read</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;mylog.log&quot;</span> <span class="ruby-comment"># create reader</span>
+<span class="ruby-identifier">reader</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">chunk</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">key</span> = <span class="ruby-identifier">chunk</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># first chunk element is the key</span>
+  <span class="ruby-identifier">value</span> = <span class="ruby-identifier">chunk</span>[<span class="ruby-value">1</span>] <span class="ruby-comment"># second chunk element is the value</span>
+  <span class="ruby-identifier">op</span> = <span class="ruby-identifier">chunk</span>[<span class="ruby-value">2</span>] <span class="ruby-comment"># third chunk element is the operation in the log</span>
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">op</span>
+<span class="ruby-keyword">end</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File sparkey.rb, line 79</span>
+            <pre><span class="ruby-comment"># File sparkey.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-ivar">@reader</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">yield</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">type</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
