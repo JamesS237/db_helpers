@@ -85,7 +85,7 @@
     
     <li ><a href="#method-i-each_value">#each_value</a>
     
-    <li ><a href="#method-i-empty">#empty</a>
+    <li ><a href="#method-i-empty-21">#empty!</a>
     
     <li ><a href="#method-i-empty-3F">#empty?</a>
     
@@ -95,9 +95,9 @@
     
     <li ><a href="#method-i-get">#get</a>
     
-    <li ><a href="#method-i-key">#key</a>
-    
     <li ><a href="#method-i-key-3F">#key?</a>
+    
+    <li ><a href="#method-i-key_values">#key_values</a>
     
     <li ><a href="#method-i-keys">#keys</a>
     
@@ -128,7 +128,9 @@
 
   <section class="description">
     
-<p>This class opens a <a href="SophiaDB.html">SophiaDB</a></p>
+<h2 id="class-SophiaDB-label-SophiaDB"><a href="SophiaDB.html">SophiaDB</a><span><a href="#class-SophiaDB-label-SophiaDB">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance</pre>
 
   </section>
 
@@ -170,9 +172,12 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 6</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-comment"># open</span>
   <span class="ruby-ivar">@db</span> = <span class="ruby-constant">Sophia</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">path</span>
+
+  <span class="ruby-comment"># close the db on exit to prevent corruption</span>
   <span class="ruby-identifier">at_exit</span> <span class="ruby-keyword">do</span>
     <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">close</span>
     <span class="ruby-identifier">exit</span>
@@ -209,13 +214,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-del-label-Del">Del<span><a href="#method-i-del-label-Del">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.set(&quot;foo&quot;, &quot;bar&quot;) # sets key `foo` to `bar`
+db.del(&quot;foo&quot;) # delete key `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="del-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 46</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">del</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -242,13 +251,17 @@
 
         <div class="method-description">
           
-          <p>delete</p>
+          <h2 id="method-i-delete-label-Delete">Delete<span><a href="#method-i-delete-label-Delete">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.set(&quot;foo&quot;, &quot;bar&quot;) # sets key `foo` to `bar`
+db.delete(&quot;foo&quot;) # delete key `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 42</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -275,13 +288,19 @@
 
         <div class="method-description">
           
-          <p>iterate</p>
+          <h2 id="method-i-each-label-Each">Each<span><a href="#method-i-each-label-Each">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">db</span> = <span class="ruby-constant">SophiaDB</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;sophia.db&quot;</span> <span class="ruby-comment"># returns a new Sophia instance</span>
+<span class="ruby-identifier">db</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-comment"># for each key, value</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> <span class="ruby-comment"># output each k/v combo to the console</span>
+<span class="ruby-keyword">end</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 51</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -308,13 +327,19 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-each_key-label-Each+Key">Each Key<span><a href="#method-i-each_key-label-Each+Key">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">db</span> = <span class="ruby-constant">SophiaDB</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;sophia.db&quot;</span> <span class="ruby-comment"># returns a new Sophia instance</span>
+<span class="ruby-identifier">db</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span> <span class="ruby-comment"># for each key</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">key</span> <span class="ruby-comment"># output each key to the console</span>
+<span class="ruby-keyword">end</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="each_key-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 55</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 115</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each_key</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">each_key</span>(<span class="ruby-operator">&amp;</span><span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -341,13 +366,19 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-each_value-label-Each+Value">Each Value<span><a href="#method-i-each_value-label-Each+Value">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">db</span> = <span class="ruby-constant">SophiaDB</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;sophia.db&quot;</span> <span class="ruby-comment"># returns a new Sophia instance</span>
+<span class="ruby-identifier">db</span>.<span class="ruby-identifier">each_value</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-comment"># for each value</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">value</span> <span class="ruby-comment"># output each value to the console</span>
+<span class="ruby-keyword">end</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="each_value-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 59</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each_value</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -361,10 +392,10 @@
       </div>
 
     
-      <div id="method-i-empty" class="method-detail ">
+      <div id="method-i-empty-21" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">empty</span><span
+          <span class="method-name">empty!</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -374,14 +405,17 @@
 
         <div class="method-description">
           
-          <p>empty</p>
+          <h2 id="method-i-empty-21-label-Empty">Empty<span><a href="#method-i-empty-21-label-Empty">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.empty! # empty the entire database</pre>
           
           
 
           
-          <div class="method-source-code" id="empty-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 78</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">empty</span>
+          <div class="method-source-code" id="empty-21-source">
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">empty!</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">clear</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -407,13 +441,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-empty-3F-label-Empty%3F">Empty?<span><a href="#method-i-empty-3F-label-Empty%3F">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.empty? # is the db empty?</pre>
           
           
 
           
           <div class="method-source-code" id="empty-3F-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 111</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 214</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -440,13 +477,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-fetch-label-Fetch">Fetch<span><a href="#method-i-fetch-label-Fetch">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.fetch(&quot;foo&quot;) # returns key `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="fetch-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 19</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">key</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -473,13 +513,19 @@
 
         <div class="method-description">
           
-          <p>filter</p>
+          <h2 id="method-i-filter-label-Filter">Filter<span><a href="#method-i-filter-label-Filter">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">db</span> = <span class="ruby-constant">SophiaDB</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;sophia.db&quot;</span> <span class="ruby-comment"># returns a new Sophia instance</span>
+<span class="ruby-identifier">res</span> = <span class="ruby-identifier">db</span>.<span class="ruby-identifier">filter</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-comment"># for each value</span>
+  <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;string&quot;</span>
+<span class="ruby-keyword">end</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="filter-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 83</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 164</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">filter</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">find</span>(<span class="ruby-operator">&amp;</span><span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -506,48 +552,18 @@
 
         <div class="method-description">
           
-          <p>get</p>
+          <h2 id="method-i-get-label-Get">Get<span><a href="#method-i-get-label-Get">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.get(&quot;foo&quot;) # returns key `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="get-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 15</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 24</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@db</span>[<span class="ruby-identifier">key</span>]
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-key" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">key</span><span
-            class="method-args">(value)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>key</p>
-          
-          
-
-          
-          <div class="method-source-code" id="key-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 64</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">key</span>(<span class="ruby-identifier">value</span>)
-  <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">key</span>(<span class="ruby-identifier">value</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -572,15 +588,54 @@
 
         <div class="method-description">
           
-          <p>has</p>
+          <h2 id="method-i-key-3F-label-Key%3F">Key?<span><a href="#method-i-key-3F-label-Key%3F">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.key?(&quot;foo&quot;) # db contains key `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="key-3F-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 88</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 173</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">key?</span>(<span class="ruby-identifier">key</span>)
   <span class="ruby-ivar">@db</span>[<span class="ruby-identifier">key</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-key_values" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">key_values</span><span
+            class="method-args">(*keys)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <h2 id="method-i-key_values-label-Key+Values">Key Values<span><a href="#method-i-key_values-label-Key+Values">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.key_values(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;) # returns the values of keys `foo`, `bar` and `baz`</pre>
+          
+          
+
+          
+          <div class="method-source-code" id="key_values-source">
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 196</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">key_values</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">keys</span>)
+  <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">values_at</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">keys</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -605,13 +660,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-keys-label-Keys">Keys<span><a href="#method-i-keys-label-Keys">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.keys # an array of all the keys in the database</pre>
           
           
 
           
           <div class="method-source-code" id="keys-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 68</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">keys</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">keys</span>
 <span class="ruby-keyword">end</span></pre>
@@ -638,13 +696,16 @@
 
         <div class="method-description">
           
-          <p>size</p>
+          <h2 id="method-i-length-label-Length">Length<span><a href="#method-i-length-label-Length">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.length # number of keys in db</pre>
           
           
 
           
           <div class="method-source-code" id="length-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 107</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 205</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">length</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">length</span>
 <span class="ruby-keyword">end</span></pre>
@@ -671,13 +732,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-put-label-Put">Put<span><a href="#method-i-put-label-Put">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.put(&quot;foo&quot;, &quot;bar&quot;) # sets key `foo` to `bar`</pre>
           
           
 
           
           <div class="method-source-code" id="put-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 28</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">put</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">set</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -704,13 +768,20 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-replace-label-Replace">Replace<span><a href="#method-i-replace-label-Replace">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-identifier">db</span> = <span class="ruby-constant">SophiaDB</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&quot;sophia.db&quot;</span> <span class="ruby-comment"># returns a new Sophia instance</span>
+<span class="ruby-identifier">db</span>.<span class="ruby-identifier">set</span>(<span class="ruby-string">&quot;foo&quot;</span>, <span class="ruby-string">&quot;bar&quot;</span>)
+<span class="ruby-identifier">db</span>.<span class="ruby-identifier">set</span>(<span class="ruby-string">&quot;bar&quot;</span>, <span class="ruby-string">&quot;baz&quot;</span>)
+
+<span class="ruby-identifier">db</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-string">&quot;foo&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;baz&quot;</span>, <span class="ruby-string">&quot;baz&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;bar&quot;</span>) <span class="ruby-comment"># updates key `foo` to `baz` and key `bar` to `bar`</span>
+</pre>
           
           
 
           
           <div class="method-source-code" id="replace-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 37</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">replace</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -737,13 +808,16 @@
 
         <div class="method-description">
           
-          <p>set</p>
+          <h2 id="method-i-set-label-Set">Set<span><a href="#method-i-set-label-Set">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.set(&quot;foo&quot;, &quot;bar&quot;) # sets key `foo` to `bar`</pre>
           
           
 
           
           <div class="method-source-code" id="set-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 24</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@db</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -770,13 +844,17 @@
 
         <div class="method-description">
           
-          <p>update</p>
+          <h2 id="method-i-update-label-Set">Set<span><a href="#method-i-update-label-Set">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.set(&quot;foo&quot;, &quot;baz&quot;) # set key `foo` to `baz`
+db.update(&quot;foo&quot;, &quot;bar&quot;) # updates key `foo` to `bar`</pre>
           
           
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 33</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">update</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -803,13 +881,16 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-value-3F-label-Value%3F">Value?<span><a href="#method-i-value-3F-label-Value%3F">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.value?(&quot;foo&quot;) # db contains value `foo`</pre>
           
           
 
           
           <div class="method-source-code" id="value-3F-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 92</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 182</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value?</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-comment"># @db.include?(value)</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">each_value</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
@@ -841,13 +922,16 @@
 
         <div class="method-description">
           
-          <p>values</p>
+          <h2 id="method-i-values-label-Values">Values<span><a href="#method-i-values-label-Values">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>db = SophiaDB.new &quot;sophia.db&quot; # returns a new Sophia instance
+db.values # an array of all the values in the database</pre>
           
           
 
           
           <div class="method-source-code" id="values-source">
-            <pre><span class="ruby-comment"># File sophiadb.rb, line 73</span>
+            <pre><span class="ruby-comment"># File sophiadb.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">values</span>
   <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">values</span>
 <span class="ruby-keyword">end</span></pre>
