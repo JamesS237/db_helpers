@@ -100,7 +100,10 @@
 
   <section class="description">
     
-<p>This class creates a redis based HyperLogLog.</p>
+<h2 id="class-HyperLog-label-HyperLog"><a href="HyperLog.html">HyperLog</a><span><a href="#class-HyperLog-label-HyperLog">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance</pre>
 
   </section>
 
@@ -142,7 +145,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 6</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">redis</span>)
   <span class="ruby-ivar">@counter</span> = <span class="ruby-constant">HyperLogLog</span><span class="ruby-operator">::</span><span class="ruby-constant">Counter</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">redis</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -177,13 +180,20 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-add-label-Add">Add<span><a href="#method-i-add-label-Add">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance
+hl.create(&#39;cliche&#39;, [&#39;foo&#39;, &#39;bar&#39;])
+
+hl.add(&#39;cliche&#39;, &#39;baz&#39;) # add `baz` to the hyperlog array `cliche`
+hl.add(&#39;cliche&#39;, [&#39;hello&#39;, &#39;world&#39;]) # add `hello` and `world` to the hyperlog array `cliche`</pre>
           
           
 
           
           <div class="method-source-code" id="add-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 16</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">items</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
     <span class="ruby-identifier">items</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
@@ -216,13 +226,19 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-count-label-Count">Count<span><a href="#method-i-count-label-Count">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance
+hl.create(&#39;cliche&#39;, [&#39;foo&#39;, &#39;bar&#39;])
+
+hl.count(&#39;cliche&#39;) # estimated count of items in the set</pre>
           
           
 
           
           <div class="method-source-code" id="count-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 26</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">count</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-ivar">@counter</span>.<span class="ruby-identifier">count</span>(<span class="ruby-identifier">name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -249,13 +265,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-create-label-Create">Create<span><a href="#method-i-create-label-Create">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance
+hl.create(&#39;cliche&#39;, [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;, &#39;hello world&#39;]) # create a hyperlog array called `cliche` in redis, containing `foo`, `bar`, `baz` and `hello world`</pre>
           
           
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 10</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">array</span>)
   <span class="ruby-identifier">array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
     <span class="ruby-ivar">@counter</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">i</span>)
@@ -284,13 +304,20 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-intersect-label-Intersect">Intersect<span><a href="#method-i-intersect-label-Intersect">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance
+hl.create(&#39;cliche&#39;, [&#39;foo&#39;, &#39;bar&#39;])
+hl.create(&#39;eyy&#39;, [&#39;bar&#39;, &#39;baz&#39;])
+
+hl.intersect([&#39;cliche&#39;, &#39;eyy&#39;]) # intersect the sets `eyy` and `cliche`</pre>
           
           
 
           
           <div class="method-source-code" id="intersect-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 38</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">intersect</span>(<span class="ruby-identifier">sets</span>)
   <span class="ruby-ivar">@counter</span>.<span class="ruby-identifier">intersection</span>(<span class="ruby-identifier">sets</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -317,13 +344,20 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-union-label-Union">Union<span><a href="#method-i-union-label-Union">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance
+hl.create(&#39;cliche&#39;, [&#39;foo&#39;, &#39;bar&#39;])
+hl.create(&#39;eyy&#39;, [&#39;bar&#39;, &#39;baz&#39;])
+
+hl.union([&#39;cliche&#39;, &#39;eyy&#39;]) # intersect the sets `eyy` and `cliche`</pre>
           
           
 
           
           <div class="method-source-code" id="union-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 30</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">union</span>(<span class="ruby-identifier">sets</span>)
   <span class="ruby-ivar">@counter</span>.<span class="ruby-identifier">union</span>(<span class="ruby-identifier">sets</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -350,13 +384,20 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-union_store-label-Union">Union<span><a href="#method-i-union_store-label-Union">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+hl = HyperLog.new redis # returns a new HyperLog instance
+hl.create(&#39;cliche&#39;, [&#39;foo&#39;, &#39;bar&#39;])
+hl.create(&#39;eyy&#39;, [&#39;bar&#39;, &#39;baz&#39;])
+
+hl.union_store([&#39;cliche&#39;, &#39;eyy&#39;], &#39;sweet&#39;) # intersect the sets `eyy` and `cliche`, and store the result in the set `sweet`</pre>
           
           
 
           
           <div class="method-source-code" id="union_store-source">
-            <pre><span class="ruby-comment"># File hll.rb, line 34</span>
+            <pre><span class="ruby-comment"># File hll.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">union_store</span>(<span class="ruby-identifier">sets</span>, <span class="ruby-identifier">out</span>)
   <span class="ruby-ivar">@counter</span>.<span class="ruby-identifier">union_store</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">out</span>)
 <span class="ruby-keyword">end</span></pre>

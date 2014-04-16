@@ -96,7 +96,10 @@
 
   <section class="description">
     
-<p>This class creates either a native or redis based bloom filter.</p>
+<h2 id="class-Bloom-label-Bloom"><a href="Bloom.html">Bloom</a><span><a href="#class-Bloom-label-Bloom">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+bf = Bloom.new redis # returns a new Bloom instance</pre>
 
   </section>
 
@@ -138,8 +141,9 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File bloom.rb, line 7</span>
+            <pre><span class="ruby-comment"># File bloom.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">redis</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-comment">#merge options with defaults</span>
   <span class="ruby-identifier">options</span> = { <span class="ruby-string">&#39;native&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-string">&#39;native&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>,
               <span class="ruby-string">&#39;size&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-string">&#39;size&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-value">100</span>,
               <span class="ruby-string">&#39;hashes&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-string">&#39;hashes&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-value">2</span>,
@@ -149,6 +153,7 @@
               <span class="ruby-string">&#39;ttl&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-string">&#39;ttl&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-value">2</span>,
               <span class="ruby-string">&#39;db&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">redis</span> }
 
+  <span class="ruby-comment"># either use native implementation or redis backed</span>
   <span class="ruby-ivar">@bf</span> = <span class="ruby-constant">BloomFilter</span><span class="ruby-operator">::</span><span class="ruby-constant">CountingRedis</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-string">&#39;native&#39;</span>]
   <span class="ruby-ivar">@bf</span> = <span class="ruby-constant">BloomFilter</span><span class="ruby-operator">::</span><span class="ruby-constant">Native</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-string">&#39;native&#39;</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -183,13 +188,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-delete-label-Delete">Delete<span><a href="#method-i-delete-label-Delete">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+bf = Bloom.new redis # returns a new Bloom instance
+bf.delete(&quot;foo&quot;) # delete `foo` from the bloom filter</pre>
           
           
 
           
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File bloom.rb, line 25</span>
+            <pre><span class="ruby-comment"># File bloom.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">obj</span>)
   <span class="ruby-ivar">@bf</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">obj</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -216,13 +225,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-includes-3F-label-Includes">Includes<span><a href="#method-i-includes-3F-label-Includes">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+bf = Bloom.new redis # returns a new Bloom instance
+bf.includes?(&quot;foo&quot;) # does bloom filter include `foo`?</pre>
           
           
 
           
           <div class="method-source-code" id="includes-3F-source">
-            <pre><span class="ruby-comment"># File bloom.rb, line 29</span>
+            <pre><span class="ruby-comment"># File bloom.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">includes?</span>(<span class="ruby-identifier">obj</span>)
   <span class="ruby-ivar">@bf</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">obj</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -249,13 +262,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-insert-label-Insert">Insert<span><a href="#method-i-insert-label-Insert">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+bf = Bloom.new redis # returns a new Bloom instance
+bf.insert(&quot;foo&quot;) # insert `foo` into the bloom filter</pre>
           
           
 
           
           <div class="method-source-code" id="insert-source">
-            <pre><span class="ruby-comment"># File bloom.rb, line 21</span>
+            <pre><span class="ruby-comment"># File bloom.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">insert</span>(<span class="ruby-identifier">obj</span>)
   <span class="ruby-ivar">@bf</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">obj</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -282,13 +299,17 @@
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-stats-label-Stats">Stats<span><a href="#method-i-stats-label-Stats">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>redis = Redis.new # create a Redis connection
+bf = Bloom.new redis # returns a new Bloom instance
+bf.stats # prints stats</pre>
           
           
 
           
           <div class="method-source-code" id="stats-source">
-            <pre><span class="ruby-comment"># File bloom.rb, line 33</span>
+            <pre><span class="ruby-comment"># File bloom.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">stats</span>
   <span class="ruby-ivar">@bf</span>.<span class="ruby-identifier">stats</span>
 <span class="ruby-keyword">end</span></pre>

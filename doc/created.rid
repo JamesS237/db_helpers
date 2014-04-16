@@ -1,9 +1,8 @@
-Wed, 16 Apr 2014 15:35:40 +1000
-./bloom.rb	Wed, 16 Apr 2014 08:51:01 +1000
-./hll.rb	Wed, 16 Apr 2014 08:51:03 +1000
+Wed, 16 Apr 2014 16:15:11 +1000
+./bloom.rb	Wed, 16 Apr 2014 16:02:19 +1000
+./hll.rb	Wed, 16 Apr 2014 16:13:25 +1000
 ./index.html	Wed, 16 Apr 2014 08:57:35 +1000
-./leveldb.rb	Wed, 16 Apr 2014 08:51:06 +1000
+./leveldb.rb	Wed, 16 Apr 2014 15:58:22 +1000
 ./readme.md	Wed, 16 Apr 2014 08:59:20 +1000
-./soph.db/1.log	Wed, 16 Apr 2014 15:30:38 +1000
 ./sophiadb.rb	Wed, 16 Apr 2014 15:31:51 +1000
 ./sparkey.rb	Wed, 16 Apr 2014 15:08:47 +1000

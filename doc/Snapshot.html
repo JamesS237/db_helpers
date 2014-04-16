@@ -75,9 +75,9 @@
     
     <li ><a href="#method-c-new">::new</a>
     
-    <li ><a href="#method-i-fastforward">#fastforward</a>
+    <li ><a href="#method-i-fastforward-21">#fastforward!</a>
     
-    <li ><a href="#method-i-rewind">#rewind</a>
+    <li ><a href="#method-i-rewind-21">#rewind!</a>
     
   </ul>
 </div>
@@ -92,8 +92,9 @@
 
   <section class="description">
     
-<p>This class provides an api to snapshots Allowing you to rewind and
-fast-forward</p>
+<h2 id="class-Snapshot-label-Snapshot"><a href="Snapshot.html">Snapshot</a><span><a href="#class-Snapshot-label-Snapshot">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>s = Snapshot.new(@db.snapshot) # returns a new Snapshot instance</pre>
 
   </section>
 
@@ -135,7 +136,7 @@ fast-forward</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File leveldb.rb, line 104</span>
+            <pre><span class="ruby-comment"># File leveldb.rb, line 199</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">snap</span>)
   <span class="ruby-ivar">@snap</span> = <span class="ruby-identifier">snap</span>
 <span class="ruby-keyword">end</span></pre>
@@ -157,10 +158,10 @@ fast-forward</p>
        </header>
 
     
-      <div id="method-i-fastforward" class="method-detail ">
+      <div id="method-i-fastforward-21" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">fastforward</span><span
+          <span class="method-name">fastforward!</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -170,14 +171,17 @@ fast-forward</p>
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-fastforward-21-label-FastForward">FastForward<span><a href="#method-i-fastforward-21-label-FastForward">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>s = Snapshot.new(@db.snapshot) # returns a new Snapshot instance
+s.fastforward! # fastforward to the state in time when the rewind occured</pre>
           
           
 
           
-          <div class="method-source-code" id="fastforward-source">
-            <pre><span class="ruby-comment"># File leveldb.rb, line 112</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">fastforward</span>
+          <div class="method-source-code" id="fastforward-21-source">
+            <pre><span class="ruby-comment"># File leveldb.rb, line 217</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fastforward!</span>
   <span class="ruby-ivar">@snap</span>.<span class="ruby-identifier">reset!</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -190,10 +194,10 @@ fast-forward</p>
       </div>
 
     
-      <div id="method-i-rewind" class="method-detail ">
+      <div id="method-i-rewind-21" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">rewind</span><span
+          <span class="method-name">rewind!</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -203,14 +207,17 @@ fast-forward</p>
 
         <div class="method-description">
           
-          
+          <h2 id="method-i-rewind-21-label-Rewind">Rewind<span><a href="#method-i-rewind-21-label-Rewind">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre>s = Snapshot.new(@db.snapshot) # returns a new Snapshot instance
+s.rewind! # rewind back to when the snapshot was taken</pre>
           
           
 
           
-          <div class="method-source-code" id="rewind-source">
-            <pre><span class="ruby-comment"># File leveldb.rb, line 108</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">rewind</span>
+          <div class="method-source-code" id="rewind-21-source">
+            <pre><span class="ruby-comment"># File leveldb.rb, line 208</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rewind!</span>
   <span class="ruby-ivar">@snap</span>.<span class="ruby-identifier">set!</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
